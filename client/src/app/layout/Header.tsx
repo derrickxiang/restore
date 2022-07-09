@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 interface Props {
   darkMode: boolean;
@@ -48,7 +48,7 @@ const navStyle = {
   "&:hover": {
     color: "grey.500",
   },
-  "&:active": {
+  "&.active": {
     color: "secondary.main",
   },
   textDecoration: "none",
@@ -85,7 +85,7 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
           </List>
 
           <Box display="flex" alignItems={"center"}>
-            <IconButton>
+            <IconButton size="large" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <ShoppingCart />
               </Badge>
