@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { Link, NavLink } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 
 interface Props {
   darkMode: boolean;
@@ -49,7 +49,7 @@ const navStyle = {
     color: "grey.500",
   },
   "&.active": {
-    color: "secondary.main",
+    color: "text.secondary",
   },
   textDecoration: "none",
 };
@@ -66,7 +66,7 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
           }}
         >
           <Box display={"flex"} alignItems="center">
-            <Typography variant="h6" component={NavLink} to="/" sx={navStyle}>
+            <Typography variant="h6" component={NavLink} to="/" exact sx={navStyle}>
               RE-STORE
             </Typography>
             <Switch
@@ -78,7 +78,7 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
 
           <List sx={{ display: "flex" }}>
             {midLinks.map(({ title, path }) => (
-              <ListItem component={NavLink} to={path} key={path} sx={navStyle}>
+              <ListItem component={NavLink} exact to={path} key={path} sx={navStyle}>
                 {title.toUpperCase()}
               </ListItem>
             ))}
