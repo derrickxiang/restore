@@ -5,12 +5,14 @@ import {
   IconButton,
   List,
   ListItem,
+  Menu,
+  MenuItem,
   Switch,
   Toolbar,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import {  NavLink } from "react-router-dom";
+import { Link,  NavLink } from "react-router-dom";
 
 interface Props {
   darkMode: boolean;
@@ -78,14 +80,15 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
 
           <List sx={{ display: "flex" }}>
             {midLinks.map(({ title, path }) => (
-              <ListItem component={NavLink} exact to={path} key={path} sx={navStyle}>
+              <ListItem component={NavLink}  to={path} key={path} sx={navStyle}>
                 {title.toUpperCase()}
               </ListItem>
             ))}
           </List>
 
+
           <Box display="flex" alignItems={"center"}>
-            <IconButton size="large" color="inherit">
+            <IconButton href='/basket' size="large" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <ShoppingCart />
               </Badge>
