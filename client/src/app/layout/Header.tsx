@@ -5,14 +5,12 @@ import {
   IconButton,
   List,
   ListItem,
-  Menu,
-  MenuItem,
   Switch,
   Toolbar,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { Link,  NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 interface Props {
   darkMode: boolean;
