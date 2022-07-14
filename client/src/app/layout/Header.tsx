@@ -3,6 +3,7 @@ import {
   AppBar,
   Badge,
   IconButton,
+  Link,
   List,
   ListItem,
   Switch,
@@ -11,6 +12,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { NavLink } from "react-router-dom";
+import { useStoreContext } from "../context/StoreContext";
 
 interface Props {
   darkMode: boolean;
@@ -55,6 +57,10 @@ const navStyle = {
 };
 
 export default function Header({ darkMode, handleThemeChange }: Props) {
+
+  const { basket } = useStoreContext();
+  const itemCount = basket?.items.reduce((sum, item) => sum += item.quantity, 0);
+
   return (
     <>
       <AppBar position="static" sx={{ mb: 4 }}>
@@ -66,7 +72,7 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
           }}
         >
           <Box display={"flex"} alignItems="center">
-            <Typography variant="h6" component={NavLink} to="/" exact sx={navStyle}>
+            <Typography variant="h6" component={Link} href="/" sx={navStyle}>
               RE-STORE
             </Typography>
             <Switch
@@ -78,7 +84,7 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
 
           <List sx={{ display: "flex" }}>
             {midLinks.map(({ title, path }) => (
-              <ListItem component={NavLink}  to={path} key={path} sx={navStyle}>
+              <ListItem component={Link}  href={path} key={path} sx={navStyle}>
                 {title.toUpperCase()}
               </ListItem>
             ))}
@@ -87,7 +93,7 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
 
           <Box display="flex" alignItems={"center"}>
             <IconButton href='/basket' size="large" color="inherit">
-              <Badge badgeContent={4} color="secondary">
+              <Badge badgeContent={itemCount} color="secondary">
                 <ShoppingCart />
               </Badge>
             </IconButton>
