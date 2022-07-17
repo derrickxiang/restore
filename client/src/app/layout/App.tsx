@@ -51,7 +51,7 @@ function App() {
     setDarkMode(!darkMode);
   }
 
-  if (loading) return <LoadingComponent message="App initializ" />
+  if (loading) return <LoadingComponent message="App initialize..." />
 
   return (
     <ThemeProvider theme={theme}>

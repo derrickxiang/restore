@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using API.data;
 using API.DTOs;
 using API.Entities;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
@@ -63,7 +64,7 @@ namespace API.Controllers
             // get basket
             var basket = await RetrieveBasket();
 
-            if (basket == null) return NotFound();
+            if (basket == null) return BadRequest(new ProblemDetails{Title="Product not found"});
 
             // remove item or reduce quantity
             basket.RemoveItem(productId, quantity);

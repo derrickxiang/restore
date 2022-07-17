@@ -98,7 +98,7 @@ export default function ProductDetail() {
                     <Grid item xs={6}>
                         <LoadingButton
                             loading={status.includes('pending')}
-                            disabled={!item && quantity === 0 || item && quantity === item?.quantity}
+                            disabled={(!item && quantity === 0)|| (item && quantity === item?.quantity)}
                             sx={{height: '55px'}}
                             size='large'
                             variant="contained"
