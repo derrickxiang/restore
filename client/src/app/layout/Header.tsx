@@ -100,8 +100,8 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
             <List sx={{ display: "flex" }}>
               {rightLinks.map(({ title, path }) => (
                 <ListItem
-                  component={NavLink}
-                  to={path}
+                  component={Link}
+                  href={path}
                   key={path}
                   sx={navStyle}
                 >
