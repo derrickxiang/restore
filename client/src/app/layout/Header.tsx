@@ -13,6 +13,7 @@ import {
 import { Box } from "@mui/system";
 import { NavLink } from "react-router-dom";
 import { useAppSelector } from "../store/configureStore";
+import SignedInMenu from "./SignedInMenu";
 
 interface Props {
   darkMode: boolean;
@@ -57,9 +58,12 @@ const navStyle = {
 };
 
 export default function Header({ darkMode, handleThemeChange }: Props) {
-
-  const { basket } = useAppSelector(state => state.basket);
-  const itemCount = basket?.items.reduce((sum, item) => sum += item.quantity, 0);
+  const { user } = useAppSelector((state) => state.account);
+  const { basket } = useAppSelector((state) => state.basket);
+  const itemCount = basket?.items.reduce(
+    (sum, item) => (sum += item.quantity),
+    0
+  );
 
   return (
     <>
@@ -84,31 +88,34 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
 
           <List sx={{ display: "flex" }}>
             {midLinks.map(({ title, path }) => (
-              <ListItem component={Link}  href={path} key={path} sx={navStyle}>
+              <ListItem component={Link} href={path} key={path} sx={navStyle}>
                 {title.toUpperCase()}
               </ListItem>
             ))}
           </List>
 
-
           <Box display="flex" alignItems={"center"}>
-            <IconButton href='/basket' size="large" color="inherit">
+            <IconButton href="/basket" size="large" color="inherit">
               <Badge badgeContent={itemCount} color="secondary">
                 <ShoppingCart />
               </Badge>
             </IconButton>
-            <List sx={{ display: "flex" }}>
-              {rightLinks.map(({ title, path }) => (
-                <ListItem
-                  component={Link}
-                  href={path}
-                  key={path}
-                  sx={navStyle}
-                >
-                  {title.toUpperCase()}
-                </ListItem>
-              ))}
-            </List>
+            {user ? (
+              <SignedInMenu />
+            ) : (
+              <List sx={{ display: "flex" }}>
+                {rightLinks.map(({ title, path }) => (
+                  <ListItem
+                    component={Link}
+                    href={path}
+                    key={path}
+                    sx={navStyle}
+                  >
+                    {title.toUpperCase()}
+                  </ListItem>
+                ))}
+              </List>
+            )}
           </Box>
         </Toolbar>
       </AppBar>

@@ -1,5 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import agent from "../../app/api/agent";
+import { getCookie } from "../../app/util/util";
 import { Basket } from "./../../app/models/Basket";
 
 interface BasketState {
@@ -26,6 +27,21 @@ export const addBasketItemAsync = createAsyncThunk<
   }
 );
 
+export const fetchBasketItemAsync = createAsyncThunk<Basket>(
+  "basket/fetchBasketItemAsync",
+  async(_, thunkAPI) => {
+    try{
+      return await agent.Basket.get();
+    }catch(error: any) {
+      return thunkAPI.rejectWithValue({error: error.data});
+    }
+  }, {
+    condition: () => {
+      if (!getCookie('buyerId')) return false;
+    }
+  }
+)
+
 export const removeBastetItemAsync = createAsyncThunk<
   void,
   { productId: number; quantity: number; name?: string }
@@ -50,14 +66,6 @@ export const basketSlice = createSlice({
       console.log(action);
       state.status = "pendingAddItem" + action.meta.arg.productId;
     });
-    builder.addCase(addBasketItemAsync.fulfilled, (state, action) => {
-      state.basket = action.payload;
-      state.status = "idle";
-    });
-    builder.addCase(addBasketItemAsync.rejected, (state, action) => {
-      state.status = "idle";
-      console.log(action.payload);
-    });
     builder.addCase(removeBastetItemAsync.pending, (state, action) => {
       const { productId, quantity } = action.meta.arg;
       console.log(state.basket);
@@ -77,6 +85,15 @@ export const basketSlice = createSlice({
     });
     builder.addCase(removeBastetItemAsync.fulfilled, (state) => {
       state.status = "idle";
+    });
+
+    builder.addMatcher(isAnyOf(addBasketItemAsync.fulfilled, fetchBasketItemAsync.fulfilled), (state, action) => {
+      state.basket = action.payload;
+      state.status = "idle";
+    });
+    builder.addMatcher(isAnyOf(addBasketItemAsync.rejected, fetchBasketItemAsync.rejected), (state, action) => {
+      state.status = "idle";
+      console.log(action.payload);
     });
   },
 });
